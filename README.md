@@ -12,7 +12,7 @@ Cybersecurity news is distributed across many publications and security research
 
 The application:
 
-- Aggregates cybersecurity news through RSS feeds.
+- Aggregates cybersecurity news through RSS(Really Simple Syndication) feeds.
 - Stores processed articles in Supabase PostgreSQL.
 - Displays current articles through a responsive web dashboard.
 - Extracts article images when RSS feeds do not provide them.
