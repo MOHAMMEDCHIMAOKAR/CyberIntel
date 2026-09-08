@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CyberIntel — professional cybersecurity intelligence and news dashboard.">
+  <meta name="theme-color" content="#080b10">
+  <title>CyberIntel | Security Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <a class="brand" href="#dashboard" aria-label="CyberIntel dashboard">
+          <span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="brand-copy"><b>CyberIntel</b><small>SECURITY INTELLIGENCE</small></span>
+        </a>
+        <button class="icon-button sidebar-toggle" id="sidebarToggle" type="button" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar">‹</button>
+      </div>
+
+      <nav class="side-nav" aria-label="Application navigation">
+        <p class="nav-label">Workspace</p>
+        <a class="nav-item active" href="#dashboard" data-section="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+        <a class="nav-item" href="#latest" data-section="latest"><span class="nav-icon">≡</span><span>Latest News</span></a>
+        <a class="nav-item" href="#threats" data-section="threats"><span class="nav-icon">◈</span><span>Threat Intelligence</span></a>
+        <a class="nav-item" href="#vulnerabilities" data-section="vulnerabilities"><span class="nav-icon">△</span><span>Vulnerabilities</span></a>
+        <a class="nav-item" href="#bookmarks" data-section="bookmarks"><span class="nav-icon">☆</span><span>Bookmarks</span></a>
+
+        <p class="nav-label">Coverage</p>
+        <a class="nav-item" href="#latest" data-category="Data Breaches"><span class="nav-icon">◉</span><span>Data Breaches</span></a>
+        <a class="nav-item" href="#latest" data-category="Malware"><span class="nav-icon">◆</span><span>Malware</span></a>
+        <a class="nav-item" href="#latest" data-category="Ransomware"><span class="nav-icon">▣</span><span>Ransomware</span></a>
+        <a class="nav-item" href="#latest" data-category="Cyber Attacks"><span class="nav-icon">↗</span><span>Exploits & Attacks</span></a>
+        <a class="nav-item" href="#latest" data-category="Threat Intelligence"><span class="nav-icon">◎</span><span>Security Research</span></a>
+
+        <p class="nav-label">System</p>
+        <a class="nav-item" href="#sources" data-section="sources"><span class="nav-icon">▤</span><span>Sources</span></a>
+        <a class="nav-item" href="#settings" data-section="settings"><span class="nav-icon">⚙</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="system-card">
+          <div class="system-row"><span><i class="status-dot"></i> Feed status</span><b id="sideFeedStatus">DEMO</b></div>
+          <div class="system-row"><span>Last sync</span><b id="sideLastUpdated">—</b></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-backdrop" id="mobileBackdrop" hidden></div>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu icon-button" id="mobileMenu" type="button" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb"><span>CyberIntel</span><b>/</b><strong id="pageTitle">Dashboard</strong></div>
+        <div class="topbar-actions">
+          <label class="global-search">
+            <span class="sr-only">Search intelligence</span>
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search threats, CVEs, malware..." autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+          <button class="icon-button" id="refreshBtn" type="button" title="Refresh intelligence" aria-label="Refresh intelligence">↻</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section id="dashboard" class="page-section active-section" aria-labelledby="dashboardTitle">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">SECURITY OPERATIONS / OVERVIEW</p>
+              <h1 id="dashboardTitle">Intelligence overview</h1>
+              <p class="page-subtitle">A focused view of the latest security signals across monitored sources.</p>
+            </div>
+            <div class="heading-actions">
+              <span class="status-chip"><i class="status-dot"></i><span id="feedStatus">DEMO MODE</span></span>
+              <button class="primary-button" id="dashboardRefresh" type="button">Refresh feed</button>
+            </div>
+          </div>
+
+          <div class="metric-grid" id="metricGrid"></div>
+
+          <div class="dashboard-grid">
+            <section class="panel large-panel">
+              <div class="panel-header">
+                <div><p class="eyebrow">HIGH SIGNAL</p><h2>Latest intelligence</h2></div>
+                <a class="panel-link" href="#latest">View all →</a>
+              </div>
+              <div id="dashboardNews" class="compact-news-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header"><div><p class="eyebrow">ATTENTION</p><h2>Priority signals</h2></div></div>
+              <div id="priorityList" class="priority-list"></div>
+            </section>
+          </div>
+
+          <div class="dashboard-grid lower">
+            <section class="panel">
+              <div class="panel-header"><div><p class="eyebrow">TRENDING</p><h2>Topics in focus</h2></div></div>
+              <div id="topicList" class="topic-list"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><p class="eyebrow">INPUTS</p><h2>Monitored sources</h2></div><a class="panel-link" href="#sources">Manage →</a></div>
+              <div id="sourceMiniList" class="source-mini-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="latest" class="page-section" aria-labelledby="latestTitle">
+          <div class="page-heading">
+            <div><p class="eyebrow">MULTI-SOURCE MONITOR</p><h1 id="latestTitle">Latest news</h1><p class="page-subtitle">Search, filter and triage current cybersecurity reporting.</p></div>
+            <span class="result-count" id="resultCount">0 stories</span>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-search"><span>⌕</span><input id="feedSearch" type="search" placeholder="Filter this feed..."></div>
+            <label><span>Category</span><select id="categoryFilter"><option value="all">All categories</option></select></label>
+            <label><span>Source</span><select id="sourceFilter"><option value="all">All sources</option></select></label>
+            <label><span>Sort</span><select id="sortFilter"><option value="newest">Newest</option><option value="oldest">Oldest</option></select></label>
+          </div>
+          <div id="activeFilters" class="active-filters" hidden></div>
+          <div id="statePanel" class="state-panel" hidden>
+            <div class="state-icon">!</div><h2 id="stateTitle">Unable to load intelligence</h2><p id="stateMessage">Please try again.</p><button id="stateAction" class="primary-button" type="button">Retry</button>
+          </div>
+          <div id="newsGrid" class="news-grid" aria-live="polite"></div>
+        </section>
+
+        <section id="threats" class="page-section" aria-labelledby="threatTitle">
+          <div class="page-heading"><div><p class="eyebrow">THREAT INTELLIGENCE</p><h1 id="threatTitle">Threat landscape</h1><p class="page-subtitle">Structured signals inferred from the current intelligence feed.</p></div></div>
+          <div class="threat-grid">
+            <div class="panel"><div class="panel-header"><div><p class="eyebrow">ACTIVE SIGNALS</p><h2>Threat categories</h2></div></div><div id="threatCategories" class="signal-table"></div></div>
+            <div class="panel"><div class="panel-header"><div><p class="eyebrow">RECENT ACTIVITY</p><h2>Threat activity</h2></div></div><div id="threatActivity" class="compact-news-list"></div></div>
+          </div>
+        </section>
+
+        <section id="vulnerabilities" class="page-section" aria-labelledby="vulnTitle">
+          <div class="page-heading"><div><p class="eyebrow">EXPOSURE MANAGEMENT</p><h1 id="vulnTitle">Vulnerabilities</h1><p class="page-subtitle">CVE and exploit-related stories identified in the current feed.</p></div></div>
+          <div class="panel"><div id="vulnerabilityTable" class="vulnerability-table"></div></div>
+        </section>
+
+        <section id="bookmarks" class="page-section" aria-labelledby="bookmarkTitle">
+          <div class="page-heading"><div><p class="eyebrow">PERSONAL WORKSPACE</p><h1 id="bookmarkTitle">Bookmarks</h1><p class="page-subtitle">Save useful intelligence locally for later review.</p></div></div>
+          <div id="bookmarkGrid" class="news-grid"></div>
+          <div id="bookmarkEmpty" class="state-panel"><div class="state-icon">☆</div><h2>No bookmarks yet</h2><p>Use the bookmark control on any story to keep it in your local workspace.</p></div>
+        </section>
+
+        <section id="sources" class="page-section" aria-labelledby="sourcesTitle">
+          <div class="page-heading"><div><p class="eyebrow">TRUSTED INPUTS</p><h1 id="sourcesTitle">Monitored sources</h1><p class="page-subtitle">Publishers currently configured for the CyberIntel feed.</p></div></div>
+          <div id="sourceCards" class="source-cards"></div>
+        </section>
+
+        <section id="settings" class="page-section" aria-labelledby="settingsTitle">
+          <div class="page-heading"><div><p class="eyebrow">CONFIGURATION</p><h1 id="settingsTitle">Settings</h1><p class="page-subtitle">Frontend controls and deployment notes.</p></div></div>
+          <div class="settings-grid">
+            <div class="panel setting-card"><div><div><h2>Feed mode</h2><p>CyberIntel uses the centralized Flask backend as the authoritative intelligence source. If unavailable, live intelligence is not displayed.</p></div><span class="status-chip" id="settingsMode">OFFLINE</span></div></div>
+            <div class="panel setting-card"><div><div><h2>Local bookmarks</h2><p>Bookmarks are stored in browser local storage when authentication is not available.</p></div><button class="secondary-button" id="clearBookmarks" type="button">Clear bookmarks</button></div></div>
+            <div class="panel setting-card"><div><div><h2>Security posture</h2><p>Article fields are escaped before rendering, external links use <code>noopener noreferrer</code>, and no API secret is stored in the frontend.</p></div><span class="security-ok">HARDENED UI</span></div></div>
+          </div>
+        </section>
+
+        <footer class="footer"><span>CYBERINTEL <b>•</b> SECURITY INTELLIGENCE</span><span id="footerMode">Backend API ready • centralized RSS ingestion</span></footer>
+      </div>
+    </main>
+  </div>
+  <noscript><div class="noscript">CyberIntel requires JavaScript to load the intelligence feed.</div></noscript>
+  <script src="script.js"></script>
+</body>
+</html>
